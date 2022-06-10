@@ -10,7 +10,19 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+dotenv_path = Path('../.env')
+load_dotenv(dotenv_path=dotenv_path)
+# Loading the .env file
+
+POSTGRESQL_PROJECT_NAME = os.getenv('POSTGRESQL_PROJECT_NAME')
+POSTGRESQL_PROJECT_HOST = os.getenv('POSTGRESQL_PROJECT_HOST')
+POSTGRESQL_PROJECT_PORT = os.getenv('POSTGRESQL_PROJECT_PORT')
+POSTGRESQL_PROJECT_USER = os.getenv('POSTGRESQL_PROJECT_USER')
+POSTGRESQL_PROJECT_PASSWORD = os.getenv('POSTGRESQL_PROJECT_PASSWORD')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'api'
 ]
 
 MIDDLEWARE = [
@@ -75,8 +88,12 @@ WSGI_APPLICATION = 'voitheia.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': POSTGRESQL_PROJECT_NAME,
+        'USER': POSTGRESQL_PROJECT_USER,
+        'PASSWORD': POSTGRESQL_PROJECT_PASSWORD,
+        'HOST': POSTGRESQL_PROJECT_HOST,
+        'PORT': POSTGRESQL_PROJECT_PORT,
     }
 }
 
